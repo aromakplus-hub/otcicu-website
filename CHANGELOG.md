@@ -2,6 +2,30 @@
 
 All notable changes to this project, in reverse chronological order.
 
+## Bug fix: admin dashboard mobile layout (reported via screenshot)
+
+**Root cause**: `AdminSidebar`'s `<aside>` had a fixed `w-64` (256px) width with `shrink-0`, inside a `flex` row layout, with **zero responsive breakpoints anywhere** — no `hidden`, no mobile drawer, nothing. On a 360–412px phone viewport, 256px was permanently reserved for the sidebar, leaving only ~100–150px for the main content (`flex-1`) — exactly the compressed column reported. This was a genuine gap: the public site's `Header` component has proper mobile nav handling, but that pattern was never mirrored for the admin shell when it was first built.
+
+**Fix**: rebuilt the admin shell as a responsive off-canvas drawer pattern.
+- **Desktop (≥1024px / `lg`)**: behavior is pixel-for-pixel unchanged from before — static, always-visible 256px sidebar.
+- **Mobile/tablet (<1024px)**: sidebar is hidden off-screen by default (`fixed` + `-translate-x-full`), a slim top bar with a hamburger button takes its place, tapping it slides the sidebar in as an overlay with a backdrop (tap outside, tap a nav link, or tap the X to close).
+- Added `min-w-0` to the main content flex child — without it, a flex item won't shrink below its content's intrinsic width, which could reintroduce horizontal scrolling on mobile from a wide table/grid even with the sidebar itself now fixed.
+
+**Files created**: `components/admin/admin-shell.tsx` (new client component owning the mobile drawer open/close state and the responsive composition).
+
+**Files modified**:
+- `components/admin/admin-sidebar.tsx` — added `open`/`onClose` props, made the root `<aside>` responsive (fixed+off-canvas below `lg`, static at `lg`+), added a close (X) button visible only below `lg`
+- `app/admin/(dashboard)/layout.tsx` — now renders `<AdminShell>` instead of composing the raw flex layout directly
+
+**Verification**: Since this sandbox has no network access to download a headless-browser binary (`cdn.playwright.dev` isn't in the egress allowlist — confirmed by actually attempting it, not assumed), visual screenshot verification wasn't possible here. Instead, verified directly against the **actual compiled CSS bytes** from a real production build:
+- Confirmed Tailwind's `lg:` breakpoint compiles to `@media (min-width:64rem)` = exactly 1024px — meaning all four widths you asked to check (360, 390, 412, 768) fall under the mobile/drawer behavior, and only ≥1024px gets the unchanged desktop layout
+- Confirmed the mobile-only top bar and backdrop are correctly scoped inside that media query (not leaking into desktop)
+- Confirmed the cascade order that determines *which rule wins when two classes target the same property*, not just that both rules exist: `.translate-x-0` is defined later in the stylesheet than `.-translate-x-full` (so opening the drawer correctly overrides the hidden state), and `.lg:static`/`.lg:z-auto`/`.lg:translate-x-0` are all defined later than their unprefixed counterparts (so the desktop override correctly wins at ≥1024px)
+- Confirmed `min-w-0` compiled correctly
+- `tsc`, `eslint`, `next build` all clean; production server smoke test confirms no regressions on public site or other admin routes
+
+**What I could not verify myself**: an actual rendered screenshot at 360/390/412/768px. This is a genuine gap given the network restriction — please confirm visually on your device (or Chrome DevTools' responsive mode) once deployed, and let me know if anything looks off despite the CSS analysis above.
+
 ## Phase 2 — Module 1: Executives
 
 ### Added

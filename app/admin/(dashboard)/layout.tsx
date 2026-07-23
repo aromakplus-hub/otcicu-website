@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { Toaster } from "sonner";
 import { createClient } from "@/lib/supabase/server";
-import { AdminSidebar } from "@/components/admin/admin-sidebar";
+import { AdminShell } from "@/components/admin/admin-shell";
 import type { RoleName } from "@/types/database.types";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -32,14 +32,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const { data: role } = await supabase.rpc("current_user_role");
 
   return (
-    <div className="flex min-h-screen bg-emerald-50/30">
-      <AdminSidebar
-        fullName={profile.full_name}
-        email={profile.email}
-        role={(role as RoleName) ?? "viewer"}
-      />
-      <main className="flex-1 overflow-y-auto p-8">{children}</main>
+    <>
+      <AdminShell fullName={profile.full_name} email={profile.email} role={(role as RoleName) ?? "viewer"}>
+        {children}
+      </AdminShell>
       <Toaster richColors position="top-right" />
-    </div>
+    </>
   );
 }
