@@ -66,12 +66,18 @@ export default async function NewsArticlePage({
           </div>
 
           <div className="mt-8 flex flex-col gap-5 text-base leading-relaxed text-ink-700">
-            <p>{item.excerpt}</p>
-            <p className="text-sm italic text-ink-500">
-              Placeholder article body — replace with the full announcement text once available.
-              Full articles will support rich text, embedded images, and downloadable notices (e.g.
-              AGM agendas) in a future content update.
-            </p>
+            {item.body ? (
+              <p>{item.body}</p>
+            ) : (
+              <>
+                <p>{item.excerpt}</p>
+                <p className="text-sm italic text-ink-500">
+                  Placeholder article body — replace with the full announcement text once available.
+                  Full articles will support rich text, embedded images, and downloadable notices (e.g.
+                  AGM agendas) in a future content update.
+                </p>
+              </>
+            )}
           </div>
         </Container>
       </article>

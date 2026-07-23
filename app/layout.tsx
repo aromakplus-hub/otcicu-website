@@ -28,6 +28,30 @@ export const metadata: Metadata = {
     locale: "en_NG",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: siteConfig.description,
+  },
+};
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "FinancialService",
+  name: siteConfig.fullName,
+  alternateName: siteConfig.name,
+  description: siteConfig.description,
+  slogan: siteConfig.slogan,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: siteConfig.address,
+    addressCountry: "NG",
+  },
+  telephone: siteConfig.phone,
+  ...(siteConfig.email ? { email: siteConfig.email } : {}),
+  sameAs: [siteConfig.social.facebook, siteConfig.social.instagram, siteConfig.social.x].filter(
+    Boolean
+  ),
 };
 
 export default function RootLayout({
@@ -36,6 +60,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
         <Header />
         <main id="main-content">{children}</main>
         <Footer />

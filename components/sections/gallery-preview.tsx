@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight, ImageIcon } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -32,14 +33,27 @@ export function GalleryPreview() {
             <div
               key={item.id}
               className={cn(
-                "group relative flex items-end overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-700 to-emerald-900",
+                "group relative flex items-end overflow-hidden rounded-2xl",
+                !item.photo && "bg-gradient-to-br from-emerald-700 to-emerald-900",
                 spanClass[item.span ?? "normal"]
               )}
             >
-              <ImageIcon
-                className="absolute right-4 top-4 text-white/30"
-                size={20}
-                aria-hidden
+              {item.photo ? (
+                <Image
+                  src={item.photo}
+                  alt={item.caption}
+                  fill
+                  sizes="(min-width: 640px) 33vw, 100vw"
+                  className="object-cover"
+                />
+              ) : (
+                <ImageIcon className="absolute right-4 top-4 text-white/30" size={20} aria-hidden />
+              )}
+              <span
+                className={cn(
+                  "absolute inset-0",
+                  item.photo && "bg-gradient-to-t from-black/70 via-black/10 to-transparent"
+                )}
               />
               <p className="relative z-10 p-5 text-sm font-medium text-white/90">
                 {item.caption}

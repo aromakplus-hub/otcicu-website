@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { X, ChevronLeft, ChevronRight, ImageIcon } from "lucide-react";
 import type { GalleryItem } from "@/lib/data/gallery";
 
@@ -67,14 +68,34 @@ export function Lightbox({
       </button>
 
       <div
-        className="flex aspect-[4/3] w-full max-w-2xl flex-col items-center justify-center gap-4 rounded-2xl bg-gradient-to-br from-emerald-700 to-emerald-900 p-8 text-center"
+        className="relative flex aspect-[4/3] w-full max-w-2xl flex-col items-center justify-center gap-4 overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-700 to-emerald-900 p-8 text-center"
         onClick={(e) => e.stopPropagation()}
       >
-        <ImageIcon className="text-white/40" size={40} aria-hidden />
-        <p className="font-display text-lg font-semibold text-white">{item.caption}</p>
-        <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.1em] text-emerald-50/80">
-          {item.category}
-        </span>
+        {item.photo ? (
+          <>
+            <Image
+              src={item.photo}
+              alt={item.caption}
+              fill
+              sizes="(min-width: 768px) 672px, 100vw"
+              className="object-cover"
+            />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-5 pt-10">
+              <p className="relative font-display text-base font-semibold text-white">{item.caption}</p>
+              <span className="relative mt-1 inline-block rounded-full bg-white/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.1em] text-emerald-50/80">
+                {item.category}
+              </span>
+            </div>
+          </>
+        ) : (
+          <>
+            <ImageIcon className="text-white/40" size={40} aria-hidden />
+            <p className="font-display text-lg font-semibold text-white">{item.caption}</p>
+            <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.1em] text-emerald-50/80">
+              {item.category}
+            </span>
+          </>
+        )}
       </div>
 
       <button

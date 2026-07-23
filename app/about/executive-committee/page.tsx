@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default function ExecutiveCommitteePage() {
-  const [chairman, viceChairman, secretary, treasurer, financialSecretary, ...members] =
+  const [president, vicePresident, secretary, assistantSecretary, treasurer, financialSecretary, ...members] =
     executiveCommittee;
 
   return (
@@ -29,7 +29,7 @@ export default function ExecutiveCommitteePage() {
           <div>
             <SectionHeading eyebrow="Officers" title="Board Officers" className="mb-8" />
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {[chairman, viceChairman, secretary, treasurer, financialSecretary].map((profile) => (
+              {[president, vicePresident, secretary, assistantSecretary, treasurer, financialSecretary].map((profile) => (
                 <ProfileCard key={profile.name} profile={profile} />
               ))}
             </div>
@@ -46,12 +46,6 @@ export default function ExecutiveCommitteePage() {
             </div>
           )}
 
-          <p className="text-sm text-ink-500">
-            <em>
-              Placeholder profiles — replace with verified names, roles, and biographies approved
-              by the Board before publishing.
-            </em>
-          </p>
         </Container>
       </section>
 

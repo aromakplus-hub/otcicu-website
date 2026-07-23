@@ -4,22 +4,25 @@ export type LoanProduct = {
   eligibility: string;
   guarantors: string;
   turnaround: string;
+  fee?: string;
 };
 
 export const loanProducts: LoanProduct[] = [
   {
-    name: "Interest-Free Loan",
+    name: "Interest-Free Loan (Standard)",
     summary: "The cooperative's standard facility — no interest, a transparent processing fee only.",
     eligibility: "Confirmed member, zero arrears, no other active loan",
     guarantors: "4 guarantors required",
     turnaround: "Standard processing",
+    fee: "5% processing fee · up to 2\u20133\u00d7 your Share & Savings balance",
   },
   {
-    name: "Emergency Loan",
+    name: "Emergency Loan (Short-Term)",
     summary: "A fast-track facility for urgent, unplanned needs.",
     eligibility: "Confirmed member, zero arrears",
     guarantors: "2 guarantors required",
     turnaround: "24-hour fast-track review",
+    fee: "10% processing fee · amount subject to approval",
   },
   {
     name: "Development Loan",
@@ -75,21 +78,21 @@ export const loanFaqs = [
   {
     question: "Are cooperative loans really interest-free?",
     answer:
-      "Yes. In line with our non-interest financial model, loans carry no interest — only a transparent processing fee disclosed before you accept any offer.",
+      "Yes. In line with our non-interest financial model, loans carry no interest — only a transparent processing fee (5% for the Interest-Free Loan, 10% for the Emergency Loan) disclosed before you accept any offer. This is grounded in the cooperative's by-laws and applicable cooperative law, not a conventional interest-based framework.",
+  },
+  {
+    question: "How much can I borrow?",
+    answer:
+      "Loan amounts are generally capped at two to three times your Share & Savings balance, subject to the cooperative's approved policies and your eligibility.",
   },
   {
     question: "How many guarantors do I need?",
     answer:
-      "It depends on the loan product — typically 2 for Emergency Loans and up to 4 for Interest-Free or Development Loans. Your guarantors must also be Confirmed Members in good standing.",
-  },
-  {
-    question: "Can I have more than one loan at a time?",
-    answer:
-      "You can't hold two active loans of the same product type simultaneously, and your total exposure across all loans is capped relative to your Share & Savings balance.",
+      "It depends on the loan product — typically 2 for the Emergency Loan and up to 4 for the Interest-Free or Development Loan. Your guarantors must also be Confirmed Members in good standing.",
   },
   {
     question: "What happens if I miss a repayment?",
     answer:
-      "Missed repayments move your loan through a staged review process, with notifications to you and your guarantors. Early contact with the cooperative always helps if you anticipate a difficulty.",
+      "A late payment attracts a penalty of 2% of the total amount loaned, subject to Board approval. Early contact with the cooperative always helps if you anticipate a difficulty.",
   },
 ];

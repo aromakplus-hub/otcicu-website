@@ -4,11 +4,18 @@ export const siteConfig = {
   slogan: "Fun Iserere Temi Tire",
   sloganTranslation: "For the benefit of mine and yours",
   description:
-    "A member-owned cooperative building financial security through collective savings, transparent lending, and shared prosperity.",
-  email: "info@otitolojucicu.org",
-  phone: "+234 800 000 0000",
-  address: "Cooperative House, Lagos, Nigeria",
-  founded: "Registered under the Nigerian Cooperative Societies Act",
+    "A member-owned, non-interest cooperative building financial security through collective savings, interest-free financing, and shared prosperity.",
+  email: "", // Not supplied in the approved content workbook — show "Coming Soon" until confirmed
+  phone: "+234 816 473 0336",
+  whatsapp: "+2348164730336",
+  address:
+    "Otitoloju Cooperative Office 1, opposite Post Office, Toad Garage, Ikirun/Ila-Orangun Road, Oju-Elegba, Iree, Osun State",
+  founded: "Registered under the Nigerian Cooperative Societies Act — January 2019",
+  social: {
+    facebook: "https://www.facebook.com/share/1DTqyDdteJ/?mibextid=wwXIfr",
+    instagram: "https://www.instagram.com/otitolojucicu?igsh=OTZuYWl0bXV5dTE4",
+    x: "https://x.com/OTITOLOJUCICU",
+  },
 };
 
 export type NavItem = {

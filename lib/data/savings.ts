@@ -14,7 +14,7 @@ export const savingsAccounts: SavingsAccount[] = [
     description:
       "Your core cooperative account. Monthly contributions build this balance steadily and it forms the basis of your loan eligibility.",
     features: [
-      "Monthly contribution credited automatically",
+      "Minimum monthly contribution of \u20a65,000, credited automatically",
       "Protected — no self-debit; withdrawable on exit only",
       "Determines your loan exposure limit",
     ],
@@ -26,8 +26,8 @@ export const savingsAccounts: SavingsAccount[] = [
     description:
       "A flexible everyday account for transfers, airtime, and other transactions within your daily limit.",
     features: [
+      "Includes a compulsory \u20a61,000 monthly Development Levy",
       "Unrestricted member-initiated transactions",
-      "Configurable daily transaction limit",
       "No overdraft permitted",
     ],
   },
@@ -39,8 +39,8 @@ export const savingsAccounts: SavingsAccount[] = [
       "Unlocked once you reach Confirmed membership. Grows through cooperative investment yield per board policy.",
     features: [
       "Available to Confirmed (OCFD) members",
+      "10% annual return, subject to yearly financial performance and Board approval",
       "Debits require Account Officer and Finance Manager approval",
-      "Yield accumulates per cooperative investment policy",
     ],
   },
 ];
@@ -65,5 +65,10 @@ export const savingsFaqs = [
     question: "When can I access an Investment Account?",
     answer:
       "Investment Accounts are available once you become a Confirmed Member — typically after six months of consistent contributions as a Guest Member with no outstanding arrears.",
+  },
+  {
+    question: "Are there any other fees I should know about?",
+    answer:
+      "An annual maintenance fee of \u20a65,000 applies for administrative and operational support. If you exit the cooperative, a 4% administrative processing fee is deducted from your balance where applicable.",
   },
 ];

@@ -11,10 +11,8 @@ export const metadata: Metadata = {
     "Get in touch with Otitoloju C.I.C.U — office address, phone, email, and office hours.",
 };
 
-const officeHours = [
-  { day: "Monday – Friday", hours: "8:00 AM – 5:00 PM" },
-  { day: "Saturday", hours: "9:00 AM – 1:00 PM" },
-  { day: "Sunday & Public Holidays", hours: "Closed" },
+const officeHours: { day: string; hours: string }[] = [
+  // Not supplied in the approved content workbook yet.
 ];
 
 export default function ContactPage() {
@@ -57,29 +55,37 @@ export default function ContactPage() {
                 <Mail size={20} className="mt-0.5 shrink-0 text-emerald-700" />
                 <div>
                   <p className="font-display text-sm font-semibold text-ink-900">Email</p>
-                  <a href={`mailto:${siteConfig.email}`} className="text-sm text-ink-500 hover:text-emerald-700">
-                    {siteConfig.email}
-                  </a>
+                  {siteConfig.email ? (
+                    <a href={`mailto:${siteConfig.email}`} className="text-sm text-ink-500 hover:text-emerald-700">
+                      {siteConfig.email}
+                    </a>
+                  ) : (
+                    <span className="text-sm text-ink-400">Coming soon</span>
+                  )}
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <Clock size={20} className="mt-0.5 shrink-0 text-emerald-700" />
                 <div>
                   <p className="font-display text-sm font-semibold text-ink-900">Office Hours</p>
-                  <dl className="mt-1 flex flex-col gap-0.5 text-sm text-ink-500">
-                    {officeHours.map((entry) => (
-                      <div key={entry.day} className="flex justify-between gap-4">
-                        <dt>{entry.day}</dt>
-                        <dd>{entry.hours}</dd>
-                      </div>
-                    ))}
-                  </dl>
+                  {officeHours.length > 0 ? (
+                    <dl className="mt-1 flex flex-col gap-0.5 text-sm text-ink-500">
+                      {officeHours.map((entry) => (
+                        <div key={entry.day} className="flex justify-between gap-4">
+                          <dt>{entry.day}</dt>
+                          <dd>{entry.hours}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  ) : (
+                    <p className="mt-1 text-sm text-ink-400">Coming soon</p>
+                  )}
                 </div>
               </div>
             </div>
 
             <a
-              href="https://wa.me/2348000000000"
+              href={`https://wa.me/${siteConfig.whatsapp.replace(/\D/g, "")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2.5 rounded-2xl bg-[#25D366] px-6 py-4 font-ui text-sm font-semibold text-white transition-opacity hover:opacity-90"

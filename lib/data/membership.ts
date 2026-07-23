@@ -32,7 +32,7 @@ export const membershipProcess = [
   },
   {
     title: "Pay the Membership Fee",
-    description: "Fee is held pending review and refunded in full if your application isn't approved.",
+    description: "A one-time \u20a621,000 entrance fee plus \u20a64,000 minimum savings, held pending review and refunded in full if your application isn't approved.",
   },
   {
     title: "Admin Review",
@@ -45,6 +45,11 @@ export const membershipProcess = [
 ];
 
 export const membershipFaqs = [
+  {
+    question: "How much is the membership fee?",
+    answer:
+      "A one-time entrance fee of \u20a621,000 applies, alongside a \u20a64,000 minimum opening balance for your Share & Savings Account.",
+  },
   {
     question: "How long does membership approval take?",
     answer:

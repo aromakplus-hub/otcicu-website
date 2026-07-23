@@ -20,13 +20,31 @@ const values = [
   { icon: Scale, title: "Financial Discipline", description: "Interest-free lending backed by disciplined, consistent saving." },
 ];
 
-const objectives = [
-  "Digitise membership, account, and loan processes to eliminate manual error",
-  "Scale responsibly across branches while preserving financial accuracy",
-  "Provide mobile-first, 24/7 access to accounts and loan status",
-  "Operate a fully auditable, double-entry financial system",
-  "Maintain full compliance with Nigerian cooperative and data protection law",
-  "Embed internal controls and maker-checker workflows across all transactions",
+const milestones = [
+  {
+    year: "2013",
+    title: "Foundation of OTITOLOJU CICU LTD",
+    description:
+      "The cooperative was founded under the leadership of Alhaji Abdulahi Kolawole Oyeyemi with the vision of establishing a strong, non-interest cooperative dedicated to improving the socio-economic well-being of its members.",
+  },
+  {
+    year: "Jan 2019",
+    title: "Official Government Registration",
+    description:
+      "OTITOLOJU CICU LTD was officially registered by the Government as a Cooperative Investment and Credit Union Limited, providing legal recognition and strengthening its operations.",
+  },
+  {
+    year: "2020",
+    title: "Expansion of Membership and Services",
+    description:
+      "The cooperative experienced significant growth in membership and expanded its non-interest savings and loan services, empowering more members and supporting small businesses.",
+  },
+  {
+    year: "2025",
+    title: "Growth, Recognition, and Digital Transformation",
+    description:
+      "The cooperative strengthened its governance, introduced member recognition initiatives such as the Best Member Award, and began embracing digital platforms to improve communication and service delivery.",
+  },
 ];
 
 const reasons = [
@@ -53,7 +71,7 @@ export default function AboutPage() {
     <>
       <PageHero
         eyebrow="About the Cooperative"
-        title="Building financial security, together, since our founding"
+        title="Building financial security together since 2013"
         description="Otitoloju Cooperative Investment and Credit Union Limited pools member resources into collective savings and interest-free credit — guided by the cooperative principles of voluntary membership, democratic control, and shared prosperity."
       />
 
@@ -64,7 +82,7 @@ export default function AboutPage() {
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-700 to-emerald-900">
               <div className="absolute inset-0 flex flex-col justify-end p-8">
                 <p className="font-display text-2xl font-semibold text-white">
-                  A cooperative built by its members
+                  Founded 2013 &middot; Registered 2019
                 </p>
                 <p className="mt-2 text-sm text-emerald-100/80">
                   Registered under the Nigerian Cooperative Societies Act.
@@ -75,12 +93,40 @@ export default function AboutPage() {
           <div className="flex flex-col gap-6 lg:col-span-7">
             <SectionHeading
               eyebrow="Our History"
-              title="From a small savings circle to a growing cooperative union"
-              description="Otitoloju C.I.C.U began as a small group of colleagues pooling monthly contributions to support one another through life's expenses — a practice rooted in the Yoruba tradition of collective thrift. Over time, formal registration under the Cooperative Societies Act allowed the group to grow into a fully-fledged credit union serving thousands of members."
+              title="Founded in 2013, registered in 2019"
             />
-            <p className="text-sm leading-relaxed text-ink-500">
-              <em>Placeholder content — replace with the cooperative&rsquo;s verified founding history, registration date, and milestones before publishing.</em>
-            </p>
+            <div className="flex flex-col gap-4 text-sm leading-relaxed text-ink-600 sm:text-base">
+              <p>
+                OTITOLOJU Cooperative Investment and Credit Union Limited (OTITOLOJU CICU LTD) is a
+                non-interest cooperative founded in 2013 by a group of visionary individuals led by
+                Alhaji Abdulahi Kolawole Oyeyemi, with a shared commitment to improving the economic
+                and social well-being of members through the cooperative model. The society was
+                established on the principles of self-help, mutual trust, transparency, and
+                collective responsibility, with a strong focus on promoting savings, providing
+                interest-free financial assistance, and fostering sustainable economic growth.
+              </p>
+              <p>
+                As the cooperative continued to grow in membership and strength, it attained
+                official government registration in January 2019, giving it legal recognition to
+                operate as a Cooperative Investment and Credit Union Limited. This milestone
+                strengthened its governance and enabled it to expand its services in accordance
+                with cooperative laws and regulations.
+              </p>
+              <p>
+                One of the unique features of OTITOLOJU CICU LTD is its non-interest loan
+                programme, through which qualified members can access loans of up to two (2) or
+                three (3) times their savings, subject to the cooperative&rsquo;s approved policies
+                and repayment terms. This initiative has empowered many members to grow their
+                businesses, support their families, and improve their standard of living without
+                the burden of interest charges.
+              </p>
+              <p>
+                Today, OTITOLOJU CICU LTD continues to grow in membership, financial strength, and
+                service delivery. The cooperative remains committed to promoting unity, integrity,
+                accountability, and shared prosperity while empowering members through ethical,
+                non-interest financial services.
+              </p>
+            </div>
           </div>
         </Container>
       </section>
@@ -93,7 +139,10 @@ export default function AboutPage() {
               Our Vision
             </span>
             <p className="font-display text-xl font-semibold leading-snug text-ink-900">
-              To be the leading member-owned cooperative for financial inclusion and shared prosperity in our community.
+              To be the leading non-interest Cooperative Investment and Credit Union Limited,
+              empowering members through ethical financial services, interest-free financing,
+              sustainable economic growth, and shared prosperity while upholding the highest
+              standards of integrity, unity, and cooperative excellence.
             </p>
           </div>
           <div className="flex flex-col gap-4 rounded-3xl bg-emerald-900 p-9 text-emerald-50">
@@ -101,7 +150,13 @@ export default function AboutPage() {
               Our Mission
             </span>
             <p className="font-display text-xl font-semibold leading-snug">
-              To empower members through disciplined savings, interest-free credit, and transparent, democratic governance.
+              To build a strong, viable, and sustainable cooperative organization that responds to
+              the socio-economic needs of its members by promoting financial independence through
+              savings, investment opportunities, and accessible non-interest loans of up to two or
+              three times members&rsquo; savings, in accordance with the cooperative&rsquo;s
+              policies. We are committed to operating with integrity, honesty, accountability, and
+              entrepreneurial excellence while adhering to government regulations and the core
+              principles of the cooperative movement.
             </p>
           </div>
         </Container>
@@ -129,24 +184,27 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* Strategic Objectives */}
+      {/* Milestones */}
       <section className="bg-emerald-50/50 py-24">
         <Container className="grid grid-cols-1 gap-16 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <SectionHeading
-              eyebrow="Strategic Objectives"
-              title="Where the cooperative is headed"
-              description="Our current digital transformation initiative is guided by six strategic objectives approved by the Board."
+              eyebrow="Our Journey"
+              title="Milestones along the way"
+              description="From a small group of founding members to a registered cooperative union serving thousands."
             />
           </div>
           <div className="lg:col-span-7">
             <ol className="flex flex-col gap-4">
-              {objectives.map((objective, index) => (
-                <li key={objective} className="flex items-start gap-4 rounded-2xl bg-white p-5">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-700 font-ui text-sm font-semibold text-white">
-                    {index + 1}
+              {milestones.map((milestone) => (
+                <li key={milestone.year} className="flex items-start gap-4 rounded-2xl bg-white p-5">
+                  <span className="flex h-14 w-16 shrink-0 items-center justify-center rounded-full bg-emerald-700 px-2 text-center font-ui text-xs font-semibold text-white">
+                    {milestone.year}
                   </span>
-                  <span className="pt-1 text-sm leading-relaxed text-ink-700">{objective}</span>
+                  <div>
+                    <p className="font-display text-[15px] font-semibold text-ink-900">{milestone.title}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-ink-500">{milestone.description}</p>
+                  </div>
                 </li>
               ))}
             </ol>

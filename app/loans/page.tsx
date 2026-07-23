@@ -47,6 +47,12 @@ export default function LoansPage() {
                     <dt className="w-32 shrink-0 font-medium text-ink-700">Processing</dt>
                     <dd className="text-ink-500">{product.turnaround}</dd>
                   </div>
+                  {product.fee && (
+                    <div className="flex items-start gap-2">
+                      <dt className="w-32 shrink-0 font-medium text-ink-700">Fee & Limit</dt>
+                      <dd className="font-medium text-emerald-700">{product.fee}</dd>
+                    </div>
+                  )}
                 </dl>
               </div>
             ))}

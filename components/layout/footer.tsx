@@ -50,11 +50,17 @@ export function Footer() {
             &ldquo;{siteConfig.slogan}&rdquo;
           </p>
           <div className="flex gap-3 pt-2">
-            {[FacebookMark, InstagramMark, XMark].map((Mark, i) => (
+            {[
+              { Mark: FacebookMark, href: siteConfig.social.facebook, label: "Facebook" },
+              { Mark: InstagramMark, href: siteConfig.social.instagram, label: "Instagram" },
+              { Mark: XMark, href: siteConfig.social.x, label: "X (Twitter)" },
+            ].map(({ Mark, href, label }) => (
               <a
-                key={i}
-                href="#"
-                aria-label="Social media link"
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
                 className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-emerald-50 transition-colors hover:bg-gold-500 hover:text-emerald-950"
               >
                 <Mark />
@@ -110,9 +116,13 @@ export function Footer() {
             </li>
             <li className="flex items-center gap-2.5">
               <Mail size={16} className="shrink-0 text-gold-400" />
-              <a href={`mailto:${siteConfig.email}`} className="hover:text-white">
-                {siteConfig.email}
-              </a>
+              {siteConfig.email ? (
+                <a href={`mailto:${siteConfig.email}`} className="hover:text-white">
+                  {siteConfig.email}
+                </a>
+              ) : (
+                <span className="text-emerald-100/50">Coming soon</span>
+              )}
             </li>
           </ul>
           <Link
