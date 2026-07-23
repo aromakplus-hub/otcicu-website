@@ -24,7 +24,7 @@ Fill in from your Supabase project's **Settings > API** page:
 NEXT_PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon/public key>
 SUPABASE_SERVICE_ROLE_KEY=<service_role key>   # keep this secret — never commit it
-NEXT_PUBLIC_SITE_URL=https://otitolojucicu.org
+NEXT_PUBLIC_SITE_URL=https://otitolojucicu.com
 ```
 
 Without these, the public site works normally; `/admin/*` shows a "not configured" message rather than crashing (this is intentional — see `ARCHITECTURE.md`).

@@ -4,7 +4,7 @@ import { PageHero } from "@/components/shared/page-hero";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { ProfileCard } from "@/components/shared/profile-card";
 import { CtaSection } from "@/components/shared/cta-section";
-import { executiveCommittee } from "@/lib/data/executive-committee";
+import { getPublishedExecutives } from "@/lib/data/get-executives";
 
 export const metadata: Metadata = {
   title: "Executive Committee",
@@ -12,9 +12,17 @@ export const metadata: Metadata = {
     "Meet the Executive Committee of Otitoloju C.I.C.U — the elected leadership guiding the cooperative's governance and strategy.",
 };
 
-export default function ExecutiveCommitteePage() {
+export default async function ExecutiveCommitteePage() {
+  const executiveCommittee = await getPublishedExecutives();
   const [president, vicePresident, secretary, assistantSecretary, treasurer, financialSecretary, ...members] =
     executiveCommittee;
+
+  // If content management ever leaves fewer than 6 executives, degrade
+  // gracefully to a single "Leadership" grid instead of destructuring into
+  // undefined profiles.
+  const officers = [president, vicePresident, secretary, assistantSecretary, treasurer, financialSecretary].filter(
+    Boolean
+  );
 
   return (
     <>
@@ -29,7 +37,7 @@ export default function ExecutiveCommitteePage() {
           <div>
             <SectionHeading eyebrow="Officers" title="Board Officers" className="mb-8" />
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {[president, vicePresident, secretary, assistantSecretary, treasurer, financialSecretary].map((profile) => (
+              {officers.map((profile) => (
                 <ProfileCard key={profile.name} profile={profile} />
               ))}
             </div>

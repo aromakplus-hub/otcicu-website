@@ -2,6 +2,48 @@
 
 All notable changes to this project, in reverse chronological order.
 
+## Phase 2 — Module 1: Executives
+
+### Added
+- Full CRUD for the Executive Committee: list (search/sort/filter/pagination), create, edit, soft-delete, publish/unpublish workflow
+- Reusable admin data-table components (`StatusBadge`, `Pagination`, `SearchInput`, `SortableHeader`, `EmptyState`/`ErrorState`/`TableSkeleton`, `ConfirmDialog`) — built once, intended for reuse by every subsequent module
+- Direct-to-Supabase-Storage photo upload from the browser, with client-side type/size validation matching the bucket's own limits
+- `sonner` toast notifications, mounted in the admin dashboard shell
+- `supabase/seed_executives.sql` — one-time migration of the 9 real Executive Committee members (text data) into the database
+- Public `/about/executive-committee` page now reads live from Supabase via `lib/data/get-executives.ts`, with a verified-working fallback to the original hardcoded content
+
+### Fixed
+- **Real RLS gap** (found while designing the delete flow, confirmed via live Postgres testing): the `deleted_at` column on soft-deletable tables wasn't gated behind `can_publish()` the way `status` was — an `editor` could have soft-deleted a row directly, bypassing the delete restriction entirely. Added migration `0008_fix_soft_delete_rls_gap.sql`. Verified: editor's UPDATE setting `deleted_at` is now rejected by RLS; administrator's succeeds.
+- Sidebar previously listed 7 modules that don't exist yet (dead links). Removed entirely, per the Phase 2 rule that no nav item may point to an unfinished module. Executives will be added back once you confirm the Live Verification Checklist below.
+
+### Verification
+- `tsc --noEmit`, `eslint`, `next build` — all clean (25 routes)
+- **Live SQL re-verification**: all 8 migrations (0001–0008) + both seed scripts run cleanly from a fresh Postgres database; re-confirmed RLS enforcement after the 0008 fix specifically (editor blocked from soft-delete, administrator succeeds)
+- Production server smoke test: public site fully unaffected; new admin routes present and correctly gated
+- **Confirmed live**: `/about/executive-committee` renders the correct real content via its Supabase-unavailable fallback path — this is not theoretical, it was actually exercised
+
+### Live Verification Checklist (for you, against the real Supabase project)
+- [ ] Run migration `0008_fix_soft_delete_rls_gap.sql`
+- [ ] Run `supabase/seed_executives.sql` — confirm 9 rows appear in the `executives` table
+- [ ] Log in as your super_admin, visit `/admin/executives` — confirm all 9 appear
+- [ ] Create a new executive as a draft — confirm it does NOT appear on the public page (still draft)
+- [ ] Publish it — confirm it now appears on `/about/executive-committee`
+- [ ] Edit an executive's name/position — confirm the public page reflects the change after a refresh
+- [ ] Upload a photo for one of the seeded executives — confirm it displays correctly on both the admin list and the public page
+- [ ] If you have (or can temporarily create) an `editor`-role test account: confirm they can create/edit but the Delete button is hidden, and confirm they CANNOT publish a draft directly (should see the friendly permission error)
+- [ ] Delete an executive as administrator — confirm it disappears from both the admin list and the public page
+- [ ] Confirm no console errors in the browser on any of the above
+
+Once this passes, tell me and I'll add "Executives" to the sidebar nav and mark the module fully done.
+
+## Domain confirmed: otitolojucicu.com
+
+Replaced the placeholder domain (`otitolojucicu.org`) with the real one everywhere it appeared: `app/layout.tsx` (`metadataBase`), `app/sitemap.ts`, `app/robots.ts`, `.env.example`, `SETUP.md`. Rebuilt and verified at runtime (not just in source) that `/robots.txt` and `/sitemap.xml` now serve `https://otitolojucicu.com` correctly. Still outstanding: registering `otitolojucicu.com` as a custom domain in Vercel's project settings and pointing DNS at it — that's a manual step on the account-holder's side.
+
+## Deployment — first live confirmation
+
+Deployed to Vercel at **https://otcicu-website.vercel.app/**. Confirmed via direct fetch: public site fully functional (all pages, real content, gallery images, footer, socials). `/admin` correctly shows the "not configured" error page rather than crashing, since Supabase env vars aren't set on Vercel yet — this is the intended behavior from the Phase 1 fix, now confirmed working in real production rather than only in local testing. Next step: add Supabase env vars + run migrations (see `SETUP.md`), then re-verify the admin login flow live.
+
 ## Phase 1 – Foundation
 
 ### Added

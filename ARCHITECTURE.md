@@ -78,6 +78,12 @@ New signups default to `viewer` via a database trigger (`handle_new_user()`) —
    - `revalidatePath()` both the admin list page and the corresponding public page
 3. File uploads go directly to Supabase Storage from the browser using a signed upload (via the browser client), then the resulting public URL is saved to the relevant table — the service-role client (`lib/supabase/admin.ts`) is deliberately NOT used for routine uploads, only for genuinely privileged operations (see that file's own doc comment).
 
+**This pattern is now proven, not just planned** — Phase 2 Module 1 (Executives) implements exactly this, plus a reusable set of list-page primitives (`components/admin/data-table/*`: search, sort, pagination, status badge, empty/error/loading states, confirm dialog) that every subsequent module (News, Events, Gallery, Documents, Announcements) is expected to reuse rather than reimplement. A module that duplicates one of these instead of importing it should be treated as a review finding, not a stylistic choice.
+
+## Public pages that read live CMS data become dynamic, by design
+
+`/about/executive-committee` was previously statically prerendered (`○` in the build output). Once it reads from Supabase via `getPublishedExecutives()`, it necessarily becomes server-rendered per request (`ƒ` in the build output) — a page can't be both "prerendered once at build time" and "reflects live database edits." This is an accepted, deliberate tradeoff for every public page a future module connects to real data (News, Events, Gallery will follow the same pattern). It does not reintroduce the "public site depends on Supabase" risk from earlier in the project: the fallback-to-hardcoded-content pattern in `lib/data/get-executives.ts` (try/catch around the Supabase call, falling back on any error, missing config, or empty result) means the page still renders correctly even if Supabase is completely unreachable — confirmed by actually killing Supabase connectivity in testing, not just asserted. Every future public-facing data fetcher should follow this same fallback shape.
+
 ## What is intentionally NOT built yet
 
 - Any actual CRUD UI beyond the dashboard shell (Phases 4–10)

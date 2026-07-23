@@ -4,30 +4,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
-  Users,
-  Image as ImageIcon,
-  Newspaper,
-  CalendarDays,
-  FileText,
-  Megaphone,
-  Mail,
-  Settings,
   LogOut,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut } from "@/app/admin/actions";
 import type { RoleName } from "@/types/database.types";
 
+/**
+ * IMPORTANT: only add an entry here once that module's pages are fully
+ * built, tested, and deployed — per the Phase 2 operating rule, a sidebar
+ * link that 404s is treated as a bug, not an acceptable work-in-progress
+ * state. See PROJECT_TRACKER.md for what's actually shipped.
+ */
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { href: "/admin/executives", label: "Executives", icon: Users },
-  { href: "/admin/gallery", label: "Gallery", icon: ImageIcon },
-  { href: "/admin/news", label: "News", icon: Newspaper },
-  { href: "/admin/events", label: "Events", icon: CalendarDays },
-  { href: "/admin/documents", label: "Documents", icon: FileText },
-  { href: "/admin/announcements", label: "Announcements", icon: Megaphone },
-  { href: "/admin/messages", label: "Messages", icon: Mail },
-  { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
 export function AdminSidebar({

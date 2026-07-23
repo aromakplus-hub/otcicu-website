@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { Toaster } from "sonner";
 import { createClient } from "@/lib/supabase/server";
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 import type { RoleName } from "@/types/database.types";
@@ -38,6 +39,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         role={(role as RoleName) ?? "viewer"}
       />
       <main className="flex-1 overflow-y-auto p-8">{children}</main>
+      <Toaster richColors position="top-right" />
     </div>
   );
 }

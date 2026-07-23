@@ -112,6 +112,10 @@ All public-read; writes (insert/update) require `is_admin()`; deletes require `c
 
 Migrations only define RLS *policies* — on a real Supabase project, the base `GRANT` of table privileges to `anon`/`authenticated` on the `public` schema happens automatically as part of project bootstrapping (this is standard Supabase behavior; RLS, not GRANT/REVOKE, is meant to be the actual access-control layer). Migration 0001 adds `ALTER DEFAULT PRIVILEGES` so this isn't silently relied upon, and migration 0007 adds an explicit catch-all `GRANT` after all tables exist, in case default privileges didn't apply due to a role mismatch across migration execution. Both are idempotent and harmless to re-run against a real Supabase project.
 
+## Migration 0008: soft-delete RLS gap fix
+
+Found while building Phase 2's Executives module (live-tested, not just reviewed — see `CHANGELOG.md`): the original "admin update" policies on every soft-deletable table (executives, events, gallery, news, documents) gated `status` transitions behind `can_publish()`, but never gated `deleted_at` the same way. An `editor` could set `deleted_at` via a normal UPDATE, soft-deleting a row despite the "publisher delete" policy correctly blocking the equivalent hard DELETE. `ALTER POLICY` now also requires `can_publish()` whenever the new row's `deleted_at` is non-null. Restoring a row (`deleted_at` → null) is intentionally NOT gated the same way — that's a recovery action, not a destructive one.
+
 ## Live verification status
 
 Unlike most of this project (which can only be statically reviewed until a real Supabase project is reachable), the schema itself **has been executed against a real Postgres 16 instance** — not just read. This caught two real bugs before they could hit production: a function-definition ordering error, and the missing-grants issue above. See `CHANGELOG.md` for the full list of what was concretely tested (trigger behavior, role-check functions across all four roles, RLS enforcement of the editor/publisher split, anonymous read scoping, and the audit-log RPC).

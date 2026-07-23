@@ -17,6 +17,8 @@ RLS is enabled on every table in `public`. Full policy-by-policy detail is in `D
 - Write access is gated by two SQL predicates (`is_admin()`, `can_publish()`) rather than ad-hoc role-name string comparisons scattered across policies — one place to audit, one place to change.
 - Hard deletes require `can_publish()` (administrator/super_admin), never an editor.
 
+**Lesson learned (Phase 2, migration 0008)**: gating one column of a row (`status`) is not the same as gating the row's *effective* state. The original policies correctly blocked an editor from setting `status = 'published'` directly, but didn't consider that `deleted_at` was an equally privileged transition being left ungated on the very same UPDATE statement. This was caught by writing an actual adversarial test (log in as editor, try to soft-delete, expect rejection) against a real Postgres instance rather than only reading the policy SQL and reasoning about it. **Every future module's RLS should get the same treatment**: for each "only publishers can do X" rule, explicitly test every column/action that could achieve X's effect, not just the obviously-named one.
+
 ## Service-role key handling
 
 `lib/supabase/admin.ts` wraps the Supabase **service role key**, which bypasses RLS entirely. Two safeguards:

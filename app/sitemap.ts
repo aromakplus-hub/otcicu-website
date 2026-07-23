@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { newsItems } from "@/lib/data/news";
 
-const baseUrl = "https://otitolojucicu.org";
+const baseUrl = "https://otitolojucicu.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
