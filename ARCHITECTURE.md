@@ -13,16 +13,27 @@ The public marketing site (Home, About, Membership, Savings, Loans, News, Galler
 
 ```
 app/
-  (public pages — unchanged from Phase 1 of the original site build)
+  layout.tsx           — root layout: html/body, fonts, JSON-LD schema ONLY.
+                         Deliberately does NOT render Header/Footer (see
+                         "Public chrome must not leak into /admin" below).
+  (public)/
+    layout.tsx           — renders Header + <main id="main-content"> + Footer,
+                           scoped to this route group only
+    page.tsx, about/, apply/, contact/, gallery/, loans/, membership/,
+    news/, savings/       — every public marketing page (unchanged content
+                           from Phase 1, just relocated into this group)
   admin/
     login/            — public (unauthenticated) login page + Server Action
     error/             — public error page (deactivated account / not configured)
     (dashboard)/        — route group; layout.tsx here enforces auth server-side
-      layout.tsx        — the ONLY place the sidebar shell renders
+      layout.tsx        — the ONLY place the AdminShell renders
       page.tsx           — dashboard home
       (executives/, gallery/, news/, etc. — added phase by phase)
+  robots.ts, sitemap.ts, icon.png, apple-icon.png, favicon.ico
+                         — metadata routes; stay at app/ root (Next.js
+                           convention), unaffected by route groups
 components/
-  admin/               — admin-only UI (sidebar, login form, future data tables)
+  admin/               — admin-only UI (sidebar, shell, login form, data-table primitives)
   ui/, shared/, sections/, forms/, layout/  — existing public-site components, untouched
 lib/
   supabase/
@@ -38,6 +49,12 @@ types/
   database.types.ts       — hand-authored Supabase types (see file header)
 proxy.ts                  — Next.js 16 "proxy" (formerly middleware.ts)
 ```
+
+## Public chrome must not leak into /admin
+
+Found via a real screenshot (not caught by review): the root layout unconditionally rendered `Header`/`Footer` around `{children}`, which means every `/admin/*` route got the public site's navigation and footer stacked around its own `AdminShell` — since Phase 1, just not visually obvious until an unrelated mobile-layout fix made the dashboard's own content render correctly enough to notice the duplication.
+
+Fixed by moving all public pages into an `app/(public)/` route group with their own layout that owns `Header`/`Footer`; the root layout now only contains what's genuinely universal (`html`/`body`, fonts, the JSON-LD schema). This is the same category of mistake as the original "proxy runs on every route" bug from Phase 1 (see below) — a concern that should have been scoped to one part of the app ended up applying globally by default, because Next.js layouts nest and apply to everything under them unless deliberately scoped with a route group. **The general lesson, stated once so it doesn't need re-learning per phase**: anything added to `app/layout.tsx` applies to `/admin/*` too, whether that's intended or not — always ask "does this belong on every route, or just the public ones?" before adding to the root layout, rather than after.
 
 ## Why a route group for `/admin`
 

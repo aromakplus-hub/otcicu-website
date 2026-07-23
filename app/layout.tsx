@@ -9,8 +9,6 @@ import "@fontsource/manrope/700.css";
 import "@fontsource/inter/400.css";
 import "@fontsource/inter/500.css";
 import "@fontsource/inter/600.css";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
 import { siteConfig } from "@/lib/constants";
 import "./globals.css";
 
@@ -64,9 +62,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
-        <Header />
-        <main id="main-content">{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

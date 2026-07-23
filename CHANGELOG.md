@@ -2,6 +2,20 @@
 
 All notable changes to this project, in reverse chronological order.
 
+## Bug fix: admin dashboard inheriting the public site's Header/Footer
+
+**Root cause**: `app/layout.tsx` (the root layout, which wraps *every* route in the app) unconditionally rendered `<Header />` and `<Footer />` around `{children}`. This has been true since Phase 1 — the admin dashboard has always had the public marketing site's header and footer wrapped around it, on top of its own `AdminShell`. It wasn't visually obvious while the mobile layout was still squeezed (previous bug fix); once that was fixed, the duplicate header became clearly visible in your screenshot (public "OTITOLOJU C.I.C.U / COOPERATIVE UNION" header stacked directly above the admin's own "OC OTCICU Admin" bar).
+
+**Fix**: moved every public marketing page into an `app/(public)/` route group with its own `layout.tsx` that renders `Header`/`main`/`Footer`. The root `app/layout.tsx` now only provides `<html>`/`<body>`, font loading, and the site-wide JSON-LD organization schema — things that legitimately apply to every route, admin included. `/admin/*` sits as a sibling to `(public)`, so it only ever gets its own `AdminShell`, never the public chrome.
+
+**Files moved** (route group restructuring, route group folders don't affect URLs): `app/page.tsx`, `app/about/`, `app/apply/`, `app/contact/`, `app/gallery/`, `app/loans/`, `app/membership/`, `app/news/`, `app/savings/` → same paths under `app/(public)/`.
+
+**Files created**: `app/(public)/layout.tsx`
+
+**Files modified**: `app/layout.tsx` (Header/Footer/main removed, now just html/body/fonts/schema)
+
+**Verification**: confirmed the build's route table is unchanged (route groups don't affect URLs — `/about`, `/contact`, etc. all still resolve exactly as before). Then, rather than assuming the fix worked, directly fetched both an admin page and a public page and grepped for unambiguous markers: the public brand name and footer slogan appear on the homepage (1 each, as expected) and are **absent** from `/admin/login` (0 each) — confirming the admin shell no longer inherits the public chrome, not just that it "should" based on the JSX structure.
+
 ## Bug fix: admin dashboard mobile layout (reported via screenshot)
 
 **Root cause**: `AdminSidebar`'s `<aside>` had a fixed `w-64` (256px) width with `shrink-0`, inside a `flex` row layout, with **zero responsive breakpoints anywhere** — no `hidden`, no mobile drawer, nothing. On a 360–412px phone viewport, 256px was permanently reserved for the sidebar, leaving only ~100–150px for the main content (`flex-1`) — exactly the compressed column reported. This was a genuine gap: the public site's `Header` component has proper mobile nav handling, but that pattern was never mirrored for the admin shell when it was first built.
